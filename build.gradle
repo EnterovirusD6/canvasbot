@@ -1,0 +1,29 @@
+apply plugin: "java"
+
+targetCompatibility = JavaVersion.VERSION_17
+
+repositories{
+    mavenCentral()
+    maven{ url 'https://jitpack.io' }
+    maven {
+        name 'm2-dv8tion'
+        url 'https://m2.dv8tion.net/releases'
+    }
+}
+
+dependencies{
+    implementation 'net.dv8tion:JDA:4.4.0_350'
+    implementation group: 'org.json', name: 'json', version: '20211205'
+}
+
+jar{
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    from sourceSets.main.output.filter{ !it.name.toLowerCase().contains('license') }
+    from{
+        configurations.runtimeClasspath.findAll{ it.name.endsWith('jar') }.collect{ zipTree(it) }
+    }
+
+    manifest.attributes("main-class": "top.Main")
+
+}
