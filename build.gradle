@@ -1,6 +1,6 @@
 apply plugin: "java"
 
-targetCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_17
 
 repositories{
     mavenCentral()
@@ -16,14 +16,16 @@ dependencies{
     implementation group: 'org.json', name: 'json', version: '20211205'
 }
 
+
 jar{
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-
     from sourceSets.main.output.filter{ !it.name.toLowerCase().contains('license') }
     from{
         configurations.runtimeClasspath.findAll{ it.name.endsWith('jar') }.collect{ zipTree(it) }
     }
-
     manifest.attributes("main-class": "Main")
+}
 
+task runJar (type: JavaExec){
+    classpath = files(tasks.jar)
 }

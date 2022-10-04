@@ -1,6 +1,9 @@
 build/
 .idea/
 
+#ignore the developer testing token
+token
+
 # Ignore Gradle project-specific cache directory
 .gradle
 
